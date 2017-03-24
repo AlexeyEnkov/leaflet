@@ -21,7 +21,7 @@ fun init() {
 
     val map = L.map("mapId").setView(arrayOf(55.85, 38.46), 13)
 
-    L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png", object {
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", object {
         val attribution = "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"
     }).addTo(map)
 
