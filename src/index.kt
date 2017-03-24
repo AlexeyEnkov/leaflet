@@ -49,6 +49,7 @@ class App {
         val textDiv = document.createElement("div") as HTMLDivElement
         textDiv.id = "textDiv"
         textDiv.style.height = "50px"
+        textDiv.style.overflowY = "scroll"
 
         val body = document.body!!
         body.appendChild(input)
