@@ -5,6 +5,7 @@ package ru.spb.enkov.leaflet
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLInputElement
+import org.w3c.fetch.Response
 import kotlin.browser.document
 import kotlin.browser.window
 
@@ -54,7 +55,9 @@ fun generateContent() : Content {
 }
 
 fun query(number: String, map: dynamic) {
+    showText("query begin")
     val bounds = getBounds(map)
+    showText("bounds")
     val query = "[out:json];(" +
                 "node[\"addr:housenumber\"=\"$number\"]" +
                 "$bounds;" +
@@ -63,26 +66,35 @@ fun query(number: String, map: dynamic) {
                 "rel[\"addr:housenumber\"=\"$number\"]" +
                 "$bounds;" +
                 ");out center;"
+    showText("beforeFetch")
     window.fetch("https://overpass-api.de/api/interpreter?data=$query")
             .then({
+                showText("before json parse")
                 it.json()
             })
             .then({
+                showText("after json parse")
                 val elements : Array<OSMElement> = it.asDynamic().elements
+                showText("after elements to array")
                 elements.forEach { element ->
                     L.marker(arrayOf(element.center.lat, element.center.lon)).addTo(map)
                 }
+                showText("after marker")
             })
-            .catch { e ->
-                val error = document.createElement("div") as HTMLDivElement
-                error.innerText = e.toString()
-                document.body!!.appendChild(error)
-            }
+            .catch { showText(it.toString()) }
+    showText("afterFetch")
 }
 
 fun getBounds(map: dynamic) : String {
     val bounds = map.getBounds()
     return "(${bounds._southWest.lat},${bounds._southWest.lng},${bounds._northEast.lat},${bounds._northEast.lng})"
+}
+
+fun showText(s : String) {
+    val text = document.createElement("div") as HTMLDivElement
+    text.className = "text"
+    text.innerText = s
+    document.body!!.appendChild(text)
 }
 
 class OSMElement(val type: String, val id: Long, val center: Coord)
