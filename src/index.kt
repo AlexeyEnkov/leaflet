@@ -21,7 +21,7 @@ fun init() {
 
     val map = L.map("mapId").setView(arrayOf(55.85, 38.46), 13)
 
-    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", object {
+    L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png", object {
         val attribution = "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"
     }).addTo(map)
 
@@ -63,7 +63,7 @@ fun query(number: String, map: dynamic) {
                 "rel[\"addr:housenumber\"=\"$number\"]" +
                 "$bounds;" +
                 ");out center;"
-    window.fetch("http://overpass-api.de/api/interpreter?data=$query")
+    window.fetch("https://overpass-api.de/api/interpreter?data=$query")
             .then({
                 it.json()
             })
