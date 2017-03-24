@@ -30,7 +30,7 @@ class App {
     fun generateContent() : Content {
         val mapDiv = document.createElement("div") as HTMLElement
         mapDiv.id = "mapId"
-        mapDiv.style.height = "600px"
+        mapDiv.style.height = "500px"
 
         val input = document.createElement("input") as HTMLInputElement
         input.id = "inputId"
@@ -43,9 +43,9 @@ class App {
         buttonDiv.style.display = "inline-block"
 
         val body = document.body!!
-        body.appendChild(mapDiv)
         body.appendChild(input)
         body.appendChild(buttonDiv)
+        body.appendChild(mapDiv)
 
         return Content(input, buttonDiv)
     }
