@@ -73,6 +73,11 @@ fun query(number: String, map: dynamic) {
                     L.marker(arrayOf(element.center.lat, element.center.lon)).addTo(map)
                 }
             })
+            .catch { e ->
+                val error = document.createElement("div") as HTMLDivElement
+                error.innerText = e.toString()
+                document.body!!.appendChild(error)
+            }
 }
 
 fun getBounds(map: dynamic) : String {
