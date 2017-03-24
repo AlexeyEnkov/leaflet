@@ -6,8 +6,9 @@ import org.w3c.dom.*
 import org.w3c.fetch.Response
 import kotlin.browser.document
 import kotlin.browser.window
+import kotlin.dom.clear
 
-data class Content(val input : HTMLInputElement, val button : HTMLDivElement)
+data class Content(val input : HTMLInputElement, val button : HTMLDivElement, val textDiv : HTMLDivElement)
 
 fun main(args: Array<String>) {
     window.onload = { App() }
@@ -16,9 +17,12 @@ fun main(args: Array<String>) {
 class App {
 
     private val map : Leaflet
+    private val textDiv : HTMLDivElement
 
     init {
         val content = generateContent()
+
+        textDiv = content.textDiv
 
         map = Leaflet("mapId")
 
@@ -42,12 +46,17 @@ class App {
         buttonDiv.style.color = "green"
         buttonDiv.style.display = "inline-block"
 
+        val textDiv = document.createElement("div") as HTMLDivElement
+        textDiv.id = "textDiv"
+        textDiv.style.height = "50px"
+
         val body = document.body!!
         body.appendChild(input)
         body.appendChild(buttonDiv)
         body.appendChild(mapDiv)
+        body.appendChild(textDiv)
 
-        return Content(input, buttonDiv)
+        return Content(input, buttonDiv, textDiv)
     }
 
     fun query(number: String, map: Leaflet) {
@@ -86,12 +95,11 @@ class App {
         val text = document.createElement("div") as HTMLDivElement
         text.className = "text"
         text.innerText = s
-        document.body!!.appendChild(text)
+        textDiv.appendChild(text)
     }
 
     fun clear() {
-        val c = document.getElementsByClassName("text")
-        while (c.length > 0) c[0]!!.remove()
+        textDiv.clear()
         map.clearAllMarkers()
     }
 
