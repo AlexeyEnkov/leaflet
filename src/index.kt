@@ -30,7 +30,7 @@ class App {
     fun generateContent() : Content {
         val mapDiv = document.createElement("div") as HTMLElement
         mapDiv.id = "mapId"
-        mapDiv.style.height = "500px"
+        mapDiv.style.height = "400px"
 
         val input = document.createElement("input") as HTMLInputElement
         input.id = "inputId"
